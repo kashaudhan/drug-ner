@@ -3,16 +3,17 @@ from rest_framework.decorators import api_view
 from .models import Drug
 import pickle
 import os
+from django.db.models import Q
 
 
 @api_view(['POST'])
 def post_text(request):
   text = request.data['text']
-  result = list(Drug.objects.filter(salt_name__icontains=text).values())
-  ex1 = "James went to London to buy Ibuprofen last year 2019"
   mdl = pickle.load(open(os.path.dirname(__file__) + '/../model.pkl', 'rb'))
-  docx2 = mdl(ex1)
+  docx2 = mdl(text)
+  drug_name = []
   for entity in docx2.ents:
-    print(entity,entity.label_)
-  print(result)
-  return JsonResponse({'text': result})
+    if entity.label_ == 'DRUG':
+      drug_name.append(entity)
+  result = list(Drug.objects.filter(salt_name__in=drug_name).values())
+  return JsonResponse({'drug': result})
