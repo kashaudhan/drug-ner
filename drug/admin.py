@@ -27,7 +27,7 @@ class DrugAdmin(admin.ModelAdmin):
         messages.warning(request, "Wrong file type uploaded")
         return HttpResponseRedirect(request.path_info)
 
-      df = pd.read_excel(csv_file)
+      df = pd.read_csv(csv_file)
       for i in range(len(df)):
         sku_id = None if df.iloc[i, 0] == '-' else df.iloc[i, 0]
         product_id = None if df.iloc[i, 1] == '-' else df.iloc[i, 1]
