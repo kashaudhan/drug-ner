@@ -48,21 +48,23 @@ class DrugAdmin(admin.ModelAdmin):
         
         unit = None if df.iloc[i, 10] == '-' else df.iloc[i, 10]
         price_per_unit = None if df.iloc[i, 11] == '-' else df.iloc[i, 11]
-
-        Drug.objects.update_or_create(
-          sku_id=sku_id, 
-          product_id=product_id, 
-          sku_name=sku_name, 
-          price=price, 
-          manufacturer_name=manufacturer_name,
-          salt_name=salt_name,
-          drug_form=drug_form,
-          pack_size=pack_size,
-          strength=strength,
-          product_banned_flag=product_banned_flag,
-          unit=unit,
-          price_per_unit=price_per_unit
-        )
+        try:
+          Drug.objects.update_or_create(
+            sku_id=sku_id, 
+            product_id=product_id, 
+            sku_name=sku_name, 
+            price=price, 
+            manufacturer_name=manufacturer_name,
+            salt_name=salt_name,
+            drug_form=drug_form,
+            pack_size=pack_size,
+            strength=strength,
+            product_banned_flag=product_banned_flag,
+            unit=unit,
+            price_per_unit=price_per_unit
+          )
+        except:
+          pass
 
       url = reverse('admin:index')
       return HttpResponseRedirect(url)
