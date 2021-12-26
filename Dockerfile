@@ -13,10 +13,10 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 COPY nginx.default /etc/nginx/sites-available/default
 RUN mkdir -p /opt/app
 RUN mkdir -p /opt/app/pip_cache
-RUN mkdir -p /opt/app/drug-ner
+RUN mkdir -p /opt/app/drug_ner
 COPY requirements.txt startup.sh /opt/app/
 COPY .pip_cache /opt/app/pip_cache/
-COPY . /opt/app/drug-ner/
+COPY . /opt/app/drug_ner/
 WORKDIR /opt/app/
 RUN pip install -r requirements.txt --cache-dir /opt/app/pip_cache
 RUN chmod +x startup.sh
